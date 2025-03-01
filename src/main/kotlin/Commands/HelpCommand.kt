@@ -1,26 +1,12 @@
 package org.example.Commands
 
-class HelpCommand : Command {
-    override fun getName(): String {
-        return "help"
-    }
+import org.example.ControlUnits.CommandManager
 
-    override fun execute(): String {
-        return """help : вывести справку по доступным командам
-info : вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)
-show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении
-add {element} : добавить новый элемент в коллекцию
-update id {element} : обновить значение элемента коллекции, id которого равен заданному
-remove_by_id id : удалить элемент из коллекции по его id
-clear : очистить коллекцию
-save : сохранить коллекцию в файл
-execute_script file_name : считать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.
-exit : завершить программу (без сохранения в файл)
-remove_last : удалить последний элемент из коллекции
-shuffle : перемешать элементы коллекции в случайном порядке
-sort : отсортировать коллекцию в естественном порядке
-max_by_creation_date : вывести любой объект из коллекции, значение поля creationDate которого является максимальным
-filter_by_weapon_type weaponType : вывести элементы, значение поля weaponType которых равно заданному
-filter_contains_name name : вывести элементы, значение поля name которых содержит заданную подстроку"""
+class HelpCommand (private val cm: CommandManager) : Command {
+
+    override fun execute(arguments: String?){
+        println("Доступные команды:")
+        // Используется лямбда-выражение заместо println(it) для красоты вывода
+        cm.getRegisteredCommands().forEach {(name, description) -> println("$name - $description")}
     }
 }

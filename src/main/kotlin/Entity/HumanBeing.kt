@@ -3,17 +3,17 @@ package org.example.Entity
 import java.util.*
 
 class HumanBeing private constructor(
-    private val id: Int, //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
-    private val name: String, //Поле не может быть null, Строка не может быть пустой
-    private val coordinates: Coordinates, //Поле не может быть null
+    public val id: Int, //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
+    private var name: String, //Поле не может быть null, Строка не может быть пустой
+    private var coordinates: Coordinates, //Поле не может быть null
     private val creationDate: Date, //Поле не может быть null, Значение этого поля должно генерироваться автоматически
-    private val realHero: Boolean,
-    private val hasToothpick: Boolean,
-    private val impactSpeed: Float, //Максимальное значение поля: 68
-    private val soundtrackName: String, //Поле не может быть null
-    private val minutesOfWaiting: Float,
-    private val weaponType: WeaponType?,
-    private val car: Car?)
+    private var realHero: Boolean,
+    private var hasToothpick: Boolean,
+    private var impactSpeed: Float, //Максимальное значение поля: 68
+    private var soundtrackName: String, //Поле не может быть null
+    private var minutesOfWaiting: Float,
+    private var weaponType: WeaponType?,
+    private var car: Car?)
 {
     constructor( // Задаем второй конструктор для корректного и безопасного введения автоматически заполняемых данных (id, дата)
         name: String,
@@ -50,6 +50,45 @@ class HumanBeing private constructor(
         private fun generateId(): Int{
             return ++lastId
         }
+    }
+
+    fun update(
+        name: String,
+        coordinates: Coordinates,
+        realHero: Boolean,
+        hasToothpick: Boolean,
+        impactSpeed: Float,
+        soundtrackName: String,
+        minutesOfWaiting: Float,
+        weaponType: WeaponType?,
+        car: Car?
+    ) {
+        this.name = name
+        this.coordinates = coordinates
+        this.realHero = realHero
+        this.hasToothpick = hasToothpick
+        this.impactSpeed = impactSpeed
+        this.soundtrackName = soundtrackName
+        this.minutesOfWaiting = minutesOfWaiting
+        this.weaponType = weaponType
+        this.car = car
+    }
+
+    override fun toString(): String {
+        return """
+            Человек:
+                id: $id
+                Имя: $name
+                $coordinates
+                Дата создания: $creationDate
+                Настоящий герой: $realHero
+                Есть зубочистка: $hasToothpick
+                Скорость атаки: $impactSpeed
+                Название саундтрека: $soundtrackName
+                Время ожидания: $minutesOfWaiting
+                Тип оружия: $weaponType
+                Машина: $car
+        """.trimIndent()
     }
 
 }
