@@ -6,10 +6,7 @@ import org.example.Entity.Coordinates
 import org.example.Entity.HumanBeing
 import org.example.Entity.WeaponType
 
-class UpdateCommand(
-    private val collectionManager: CollectionManager,
-    private val inputManager: InputManager
-) : Command {
+class UpdateCommand(private val collectionManager: CollectionManager, private val inputManager: InputManager) : Command {
     override fun execute(arguments: String?) {
         if (arguments.isNullOrEmpty()) {
             println("Ошибка: не указан id элемента для обновления.")

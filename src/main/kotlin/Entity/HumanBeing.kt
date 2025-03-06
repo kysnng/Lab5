@@ -4,16 +4,16 @@ import java.util.*
 
 class HumanBeing private constructor(
     public val id: Int, //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
-    private var name: String, //Поле не может быть null, Строка не может быть пустой
-    private var coordinates: Coordinates, //Поле не может быть null
-    private val creationDate: Date, //Поле не может быть null, Значение этого поля должно генерироваться автоматически
-    private var realHero: Boolean,
-    private var hasToothpick: Boolean,
-    private var impactSpeed: Float, //Максимальное значение поля: 68
-    private var soundtrackName: String, //Поле не может быть null
-    private var minutesOfWaiting: Float,
-    private var weaponType: WeaponType?,
-    private var car: Car?)
+    public var name: String, //Поле не может быть null, Строка не может быть пустой
+    public var coordinates: Coordinates, //Поле не может быть null
+    public val creationDate: Date, //Поле не может быть null, Значение этого поля должно генерироваться автоматически
+    public var realHero: Boolean,
+    public var hasToothpick: Boolean,
+    public var impactSpeed: Float, //Максимальное значение поля: 68
+    public var soundtrackName: String, //Поле не может быть null
+    public var minutesOfWaiting: Float,
+    public var weaponType: WeaponType?,
+    public var car: Car?)
 {
     constructor( // Задаем второй конструктор для корректного и безопасного введения автоматически заполняемых данных (id, дата)
         name: String,

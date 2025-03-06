@@ -30,7 +30,7 @@ class AddCommand(private val collectionManager: CollectionManager, private val i
         }
         val minutesOfWaiting = im.readFloat("Введите минуты ожидания: ")
         val weaponType = im.readEnum("Введите тип оружия (AXE, RIFLE, KNIFE, MACHINE_GUN): ", WeaponType.values())
-        val carName = im.readString("Введите скорость автомобиля (если он есть, в ином случае оставьте пустым): ")
+        val carName = im.readString("Введите наименование автомобиля (если он есть, в ином случае оставьте пустым): ")
         val car = if(carName.isNotEmpty())  Car (carName) else null
 
         val newHuman = HumanBeing(

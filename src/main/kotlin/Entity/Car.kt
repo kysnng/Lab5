@@ -1,6 +1,6 @@
 package org.example.Entity
 
-class Car (private val name: String?) {
+class Car (val name: String?) {
     override fun toString(): String {
         return "$name"
     }

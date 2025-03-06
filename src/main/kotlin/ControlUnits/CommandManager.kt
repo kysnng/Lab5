@@ -9,7 +9,7 @@ class CommandManager {
 
     fun registerCommand(name: String, command: Command, description: String) {
         commands[name] = command
-        descriptions[description] = description
+        descriptions[name] = description
     }
 
     fun executeCommand(input: String) {
