@@ -1,11 +1,9 @@
 package org.example
 import UpdateCommand
-import org.example.*
 import org.example.Commands.*
 import org.example.ControlUnits.CollectionManager
 import org.example.ControlUnits.CommandManager
 import org.example.ControlUnits.InputManager
-import org.example.Entity.HumanBeing
 
 fun main(args: Array<String>) {
 
@@ -43,7 +41,7 @@ fun main(args: Array<String>) {
     println("Программа запущенна, пожалуйста введите команду (help - для списка доступных команд)")
     while(true){
         print("$ ")
-        val userSentence = readln().trim() ?: continue
+        val userSentence = readln().trim()
         val comName = userSentence.split(" ").first()
         val arguments = userSentence.drop(comName.length).trim()
         when(comName){

@@ -1,9 +1,7 @@
 package org.example.Commands
 
 import org.example.ControlUnits.CollectionManager
-import org.example.ControlUnits.InputManager
 import org.example.Entity.WeaponType
-import java.util.*
 
 class FilterByWeaponCommand (private val collectionManager: CollectionManager): Command {
     override fun execute(arguments: String?) {

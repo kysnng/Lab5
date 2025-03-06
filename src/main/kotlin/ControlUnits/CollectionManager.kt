@@ -39,7 +39,8 @@ class CollectionManager private constructor(private val collection: ArrayList<Hu
     fun getById(id: Int) : HumanBeing?{
         return collection.find { it.id == id}
     }
-    fun updateById(id: Int, newElement: HumanBeing) : Boolean{
+
+/*    fun updateById(id: Int, newElement: HumanBeing) : Boolean{
         val index = collection.indexOfFirst { it.id == id }
         return if(index !=-1){
             collection[index] = newElement
@@ -47,7 +48,7 @@ class CollectionManager private constructor(private val collection: ArrayList<Hu
         } else {
             false
         }
-    }
+    } */
 
     fun saveToFile(fileName: String) {
         try {

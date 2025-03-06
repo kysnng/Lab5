@@ -1,10 +1,7 @@
 import org.example.Commands.Command
 import org.example.ControlUnits.CollectionManager
 import org.example.ControlUnits.InputManager
-import org.example.Entity.Car
-import org.example.Entity.Coordinates
-import org.example.Entity.HumanBeing
-import org.example.Entity.WeaponType
+import org.example.Entity.*
 
 class UpdateCommand(private val collectionManager: CollectionManager, private val inputManager: InputManager) : Command {
     override fun execute(arguments: String?) {

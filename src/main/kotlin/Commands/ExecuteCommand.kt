@@ -23,13 +23,11 @@ class ExecuteCommand (private val commandManager: CommandManager) : Command {
             file.forEachLine {line ->
                 if (line.isNotBlank()){
                     println("Выполнение команды: $line")
-                    commandManager.executeCommand(line);
+                    commandManager.executeCommand(line)
                 }
             }
         } catch (e: IOException){
             println("Ошибка при чтении файла скрипта: ${e.message}")
         }
     }
-
-
 }
