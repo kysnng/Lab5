@@ -81,17 +81,34 @@ class CollectionManager private constructor(private val collection: ArrayList<Hu
                 while (reader.readLine().also { line = it } != null) {
                     val parts = line!!.split(",")
                     if (parts.size == 12) {
-                        val human = HumanBeing(
-                            name = parts[1],
-                            coordinates = Coordinates(parts[2].toInt(), parts[3].toLong()),
-                            realHero = parts[4].toBoolean(),
-                            hasToothpick = parts[5].toBoolean(),
-                            impactSpeed = parts[6].toFloat(),
-                            soundtrackName = parts[7],
-                            minutesOfWaiting = parts[8].toFloat(),
-                            weaponType = if (parts[9].isEmpty()) null else WeaponType.valueOf(parts[9]),
-                            car = if (parts[10].isEmpty()) null else Car(parts[10])
+                        val id = parts[0].toInt()
+                        val name = parts[1]
+                        val coordinates = Coordinates(parts[2].toInt(), parts[3].toLong())
+                        val creationDate = Date(parts[4].toLong())
+                        val realHero = parts[5].toBoolean()
+                        val hasToothpick = parts[6].toBoolean()
+                        val impactSpeed = parts[7].toFloat()
+                        val soundtrackName = parts[8]
+                        val minutesOfWaiting = parts[9].toFloat()
+                        val weaponType = if (parts[10].isEmpty()) null else WeaponType.valueOf(parts[10])
+                        val car = if (parts[11].isEmpty()) null else Car(parts[11])
+
+                        // Создание объекта с использованием фабричного метода
+                        val human = HumanBeing.createWithId(
+                            id,
+                            name,
+                            coordinates,
+                            creationDate,
+                            realHero,
+                            hasToothpick,
+                            impactSpeed,
+                            soundtrackName,
+                            minutesOfWaiting,
+                            weaponType,
+                            car
                         )
+
+                        // Добавление объекта в коллекцию
                         collection.add(human)
                     }
                 }

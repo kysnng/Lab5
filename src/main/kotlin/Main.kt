@@ -18,7 +18,6 @@ fun main(args: Array<String>) {
     val im = InputManager()
 
     collectionManager.loadFromFile(fileName)
-    println("Данные успешно загружены из файла $fileName.")
 
 
     cm.registerCommand("help", HelpCommand(cm), "вывести справку по доступным командам")

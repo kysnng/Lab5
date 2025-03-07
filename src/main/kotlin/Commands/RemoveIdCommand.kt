@@ -23,8 +23,8 @@ class RemoveIdCommand(private val collectionManager: CollectionManager): Command
             collectionManager.removeById(id)
         }
 
-
-
+        // Выводим сообщение об успешном удалении
+        println("Элемент (id = ${id}) успешно удален.")
     }
 
 

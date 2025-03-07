@@ -39,6 +39,8 @@ class HumanBeing private constructor(
         car
     )
 
+
+
     init {
         require(id > 0) { "Id должен быть больше 0" }
         require(name.isNotEmpty()) { "Имя не должно быть пустым" }
@@ -47,8 +49,42 @@ class HumanBeing private constructor(
 
     companion object{
         private var lastId = 0
-        private fun generateId(): Int{
+
+        private fun generateId(): Int {
             return ++lastId
+        }
+
+        // Фабричный метод для создания объекта с ручным заданием id
+        fun createWithId(
+            id: Int,
+            name: String,
+            coordinates: Coordinates,
+            creationDate: Date,
+            realHero: Boolean,
+            hasToothpick: Boolean,
+            impactSpeed: Float,
+            soundtrackName: String,
+            minutesOfWaiting: Float,
+            weaponType: WeaponType?,
+            car: Car?
+        ): HumanBeing {
+            // Обновляем lastId, если переданный id больше текущего lastId
+            if (id > lastId) {
+                lastId = id
+            }
+            return HumanBeing(
+                id,
+                name,
+                coordinates,
+                creationDate,
+                realHero,
+                hasToothpick,
+                impactSpeed,
+                soundtrackName,
+                minutesOfWaiting,
+                weaponType,
+                car
+            )
         }
     }
 
