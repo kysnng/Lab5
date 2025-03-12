@@ -3,6 +3,16 @@ package org.example.Commands
 import org.example.ControlUnits.CollectionManager
 import org.example.Entity.WeaponType
 
+/**
+ * Команда FilterByWeapon реализующая выполнение команды filter_by_weapon по запросу пользователя в интерактивном режиме
+ *
+ * Команда выводит все объекты класса HumanBeing локальной коллекции, в которых поле weaponType совпадает с введенным в аргумент метода execute.
+ *
+ * @param collectionManager принимает в параметры CollectionManager для добавления в коллекцию.
+ * @see org.example.ControlUnits.CollectionManager - класс отвечающий за управление локальной коллекцией, ее загрузкой в файл и выгрузкой из него.
+ * @see org.example.Entity.HumanBeing - основополагающий класс, объекты которого в локальной коллекции.
+ */
+
 class FilterByWeaponCommand (private val collectionManager: CollectionManager): Command {
     override fun execute(arguments: String?) {
         if (arguments.isNullOrEmpty()) {

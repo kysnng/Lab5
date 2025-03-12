@@ -7,6 +7,18 @@ import org.example.Entity.Coordinates
 import org.example.Entity.HumanBeing
 import org.example.Entity.WeaponType
 
+/**
+ * Команда Add реализующая выполнение команды add по запросу пользователя в интерактивном режиме.
+ *
+ * Отвечает за добавление нового объекта в коллекцию, поля которого задаются пользователем в интерактивном режиме.
+ *
+ * @param collectionManager принимает в параметры CollectionManager для добавления в коллекцию.
+ * @param im принимает InputManager в параметры для удобного и корректного внесения данных пользователем в интерактивном режиме.
+ * @see org.example.ControlUnits.CollectionManager - класс отвечающий за управление локальной коллекцией, ее загрузкой в файл и выгрузкой из него.
+ * @see org.example.ControlUnits.InputManager - класс отвечающий за парсинг введенных пользователем данных для локальной коллекции объектов HumanBeing.
+ * @see org.example.Entity.HumanBeing - основополагающий класс, объекты которого в локальной коллекции.
+ */
+
 class AddCommand(private val collectionManager: CollectionManager, private val im: InputManager) : Command {
     override fun execute(arguments: String?) {
         println("Добавление нового элемента в коллекцию.")

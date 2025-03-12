@@ -1,12 +1,32 @@
 package org.example
-import UpdateCommand
 import org.example.Commands.*
 import org.example.ControlUnits.CollectionManager
 import org.example.ControlUnits.CommandManager
 import org.example.ControlUnits.InputManager
 
+
+/**
+ * Основной класс программы, который запускает приложение и управляет коллекцией объектов.
+ *
+ * Программа принимает в качестве аргумента командной строки имя файла, из которого загружается коллекция.
+ * После загрузки данных программа переходит в интерактивный режим, где пользователь может выполнять различные команды.
+ * Объекты локально хранятся в коллекции формата ArrayList, реализуемым классом CollectionManager
+ * После выполнения команды save все содержимое локальной коллекции сохраняется в файл, который был введен в качестве аргумента функции
+ *
+ * @author Соловьев Даниил
+ * @version 1.0
+ *
+ * @see org.example.ControlUnits.CollectionManager Управление коллекцией, ее загрузкой и выгрузкой из файла формата .csv
+ */
+
+/**
+ * Точка входа в программу.
+ *
+ * @param args Аргументы командной строки. Первый аргумент должен содержать имя файла для загрузки данных.
+ */
 fun main(args: Array<String>) {
 
+    /** Проверка на ввод аргумента */
     if (args.isEmpty()) {
         println("Ошибка: не указано имя файла для загрузки данных.")
         return
@@ -20,6 +40,9 @@ fun main(args: Array<String>) {
     collectionManager.loadFromFile(fileName)
 
 
+
+    /** Внесение команд в список доступных с помощью CommandManager
+     * @see org.example.ControlUnits.CommandManager Управляет регистрацией и выполнением команд*/
     cm.registerCommand("help", HelpCommand(cm), "вывести справку по доступным командам")
     cm.registerCommand("info", InfoCommand(collectionManager), "вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов)")
     cm.registerCommand("show", ShowCommand(collectionManager), "вывести в стандартный поток вывода все элементы коллекции в строковом представлении")
@@ -37,6 +60,13 @@ fun main(args: Array<String>) {
     cm.registerCommand("save", SaveCommand(collectionManager, fileName), "сохранить коллекцию в файл")
     cm.registerCommand("execute", ExecuteCommand(cm), "Считать и исполнить скрипт из указанного файла.")
 
+
+    /**
+     * Основной цикл программы, который обрабатывает команды пользователя.
+     *
+     * Программа ожидает ввода команды и выполняет соответствующее действие.
+     * Цикл завершается только при выполнении команды "exit".
+     */
     println("Программа запущенна, пожалуйста введите команду (help - для списка доступных команд)")
     while(true){
         print("$ ")

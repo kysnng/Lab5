@@ -1,7 +1,19 @@
-import org.example.Commands.Command
+package org.example.Commands
+
 import org.example.ControlUnits.CollectionManager
 import org.example.ControlUnits.InputManager
 import org.example.Entity.*
+
+/**
+ * Команда Info реализующая выполнение команды info по запросу пользователя в интерактивном режиме
+ *
+ * Команда отвечающая за вывод информации о локальной коллекции. Использует метод реализованный в CollectionManager.
+ *
+ * @param collectionManager принимает в параметры CommandManager для исполнения команд скрипта.
+ * @see org.example.ControlUnits.CollectionManager - класс отвечающий за управление локальной коллекцией, ее загрузкой в файл и выгрузкой из него.
+ * @see org.example.ControlUnits.InputManager - класс отвечающий за парсинг введенных пользователем данных для локальной коллекции объектов HumanBeing.
+ * @see org.example.Entity.HumanBeing - основополагающий класс, объекты которого в локальной коллекции.
+ */
 
 class UpdateCommand(private val collectionManager: CollectionManager, private val inputManager: InputManager) : Command {
     override fun execute(arguments: String?) {

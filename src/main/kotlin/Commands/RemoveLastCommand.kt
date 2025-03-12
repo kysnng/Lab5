@@ -2,6 +2,16 @@ package org.example.Commands
 
 import org.example.ControlUnits.CollectionManager
 
+/**
+ * Команда RemoveLast реализующая выполнение команды remove_last по запросу пользователя в интерактивном режиме
+ *
+ * Команда отвечающая за удаление последнего добавленного элемента в локальной коллекции. Последний элемент определяется по полю id объекта HumanBeing.
+ *
+ * @param collectionManager принимает в параметры CommandManager для исполнения команд скрипта.
+ * @see org.example.ControlUnits.CollectionManager - класс отвечающий за управление локальной коллекцией, ее загрузкой в файл и выгрузкой из него.
+ * @see org.example.Entity.HumanBeing - основополагающий класс, объекты которого в локальной коллекции.
+ */
+
 class RemoveLastCommand(private val collectionManager: CollectionManager) : Command {
     override fun execute(arguments: String?) {
         // Получаем коллекцию

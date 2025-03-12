@@ -2,6 +2,21 @@ package org.example.Entity
 
 import java.util.*
 
+/** Класс HumanBeing объекты которого хранятся в локальной коллекции ArrayList<HumanBeing>,
+ * реализованной через класс CollectionManager.
+ * @param id - уникальный идентификатор объекта. Положителен, не может повторяться, генерируется автоматически.
+ * @param name - имя персонажа. Не может быть пустым.
+ * @param coordinates - координаты местонахождения персонажа. Не может быть пустым.
+ * @param creationDate - дата создания объекта. Генерируется автоматически.
+ * @param realHero - является ли персонаж героем (да - true, нет - false). Не может быть пустым.
+ * @param hasToothpick - держит ли зубочистку в зубах (да - true, нет - false). Не может быть пустым.
+ * @param impactSpeed - скорость удара. Не может быть пустым.
+ * @param soundtrackName - название "главной темы" персонажа. Не может быть пустым.
+ * @param minutesOfWaiting - время, необходимое для прибытия персонажа. Не может быть пустым.
+ * @param weaponType - оружие персонажа. Может отсутствовать (быть пустым).
+ * @param car - транспорт персонажа. Может отсутствовать (быть пустым).
+ * @see org.example.ControlUnits.CollectionManager*/
+
 class HumanBeing private constructor(
     public val id: Int, //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     public var name: String, //Поле не может быть null, Строка не может быть пустой
@@ -15,7 +30,11 @@ class HumanBeing private constructor(
     public var weaponType: WeaponType?,
     public var car: Car?)
 {
-    constructor( // Задаем второй конструктор для корректного и безопасного введения автоматически заполняемых данных (id, дата)
+
+    /**
+     * Второй конструктор для корректного и безопасного введения автоматически заполняемых полей (id, дата).
+     */
+    constructor(
         name: String,
         coordinates: Coordinates,
         realHero: Boolean,
@@ -26,7 +45,7 @@ class HumanBeing private constructor(
         weaponType: WeaponType?,
         car: Car?
     ) : this( // Вызов основного конструктора
-        generateId(), // Генерация ID
+        generateId(), // Автоматическая генерация ID
         name,
         coordinates,
         Date(), // Автоматическая генерация даты
@@ -40,7 +59,7 @@ class HumanBeing private constructor(
     )
 
 
-
+    /** Проверка условий для данных id, name, impactSpeed.*/
     init {
         require(id > 0) { "Id должен быть больше 0" }
         require(name.isNotEmpty()) { "Имя не должно быть пустым" }
@@ -49,12 +68,15 @@ class HumanBeing private constructor(
 
     companion object{
         private var lastId = 0
-
+        /** Статическая функция генерации уникального id
+         * @return возвращает инкрементированную переменную lastId.*/
         private fun generateId(): Int {
             return ++lastId
         }
 
-        // Фабричный метод для создания объекта с ручным заданием id
+        /** Функция для создания объекта без генерации id и даты.
+         * Необходим для корректного создания объектов при их загрузке из файла .csv.
+         * @see org.example.ControlUnits.CollectionManager.loadFromFile - функция загрузки данных из коллекции.*/
         fun createWithId(
             id: Int,
             name: String,
@@ -87,7 +109,9 @@ class HumanBeing private constructor(
             )
         }
     }
-
+/** Функция обновления данных объекта.
+ * Используется для команды update.
+ * @see org.example.Commands.UpdateCommand - команда обновления объекта.*/
     fun update(
         name: String,
         coordinates: Coordinates,
@@ -110,6 +134,9 @@ class HumanBeing private constructor(
         this.car = car
     }
 
+    /** Переопределенная функция toString для корректного вывода данных объекта.
+     * Используется для команды show.
+     * @see org.example.Commands.ShowCommand - команда вывода всего содержимого локальной коллекции.*/
     override fun toString(): String {
         return """
             Человек:
