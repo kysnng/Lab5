@@ -1,0 +1,10 @@
+help
+show
+info
+add Тема 31 312 false true 31 none 50 rifle toyota
+add Леха 35 314 true false 34 none 23 axe cadilac
+show
+update 1 Анатолий 42 21 false false 34 DTA 31 machine_gun maybe
+show
+info
+

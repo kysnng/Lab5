@@ -10,7 +10,7 @@ import org.example.Entity.WeaponType
 /**
  * Команда Add реализующая выполнение команды add по запросу пользователя в интерактивном режиме.
  *
- * Отвечает за добавление нового объекта в коллекцию, поля которого задаются пользователем в интерактивном режиме.
+ * Отвечает за добавление нового объекта в коллекцию.
  *
  * @param collectionManager принимает в параметры CollectionManager для добавления в коллекцию.
  * @param im принимает InputManager в параметры для удобного и корректного внесения данных пользователем в интерактивном режиме.
@@ -22,28 +22,77 @@ import org.example.Entity.WeaponType
 class AddCommand(private val collectionManager: CollectionManager, private val im: InputManager) : Command {
     override fun execute(arguments: String?) {
         println("Добавление нового элемента в коллекцию.")
-        val name = im.readString("Введите имя: "){
-            it.isNotEmpty()
+
+        if (arguments != null) {
+            if (arguments.split(" ").size < 10) {
+                println("Похоже, вы пытаетесь ввести данные человека в той же строке, что и команда\n" +
+                        "Попробуйте вводить данные после ввода команды add")
+                return
+            }
         }
-        val x = im.readInt("Введите координату x (максимум 749): "){
-            it <= 749 && it >= -749
+
+        val name = if (arguments == null) {
+            im.readString("Введите имя: ") { it.isNotEmpty() }
+        } else {
+            arguments.split(" ")[0]
         }
-        val y = im.readLong("Введите координату y (максимум 749): "){
-            it <= 749 && it >= -749
+
+        val x = if (arguments == null) {
+            im.readInt("Введите координату x (максимум 749): ") { it <= 749 && it >= -749 }
+        } else {
+            arguments.split(" ")[1].toInt()
         }
+
+        val y = if (arguments == null) {
+            im.readLong("Введите координату y (максимум 749): ") { it <= 749 && it >= -749 }
+        } else {
+            arguments.split(" ")[2].toLong()
+        }
+
         val coordinates = Coordinates(x, y)
-        val realHero = im.readBoolean("Это реальный герой? (true/false): ")
-        val hasToothpick = im.readBoolean("Имеет зубочистку? (true/false): ")
-        val impactSpeed = im.readFloat("Введите скорость удара: (максимум 68) "){
-            it in 0f..68f
+        val realHero = if (arguments == null) {
+            im.readBoolean("Это реальный герой? (true/false): ")
+        } else {
+            arguments.split(" ")[3].toBoolean()
         }
-        val soundtrackName = im.readString("Введите название саундтрека: "){
-            it.isNotEmpty()
+
+        val hasToothpick = if (arguments == null) {
+            im.readBoolean("Имеет зубочистку? (true/false): ")
+        } else {
+            arguments.split(" ")[4].toBoolean()
         }
-        val minutesOfWaiting = im.readFloat("Введите минуты ожидания: ")
-        val weaponType = im.readEnum("Введите тип оружия (AXE, RIFLE, KNIFE, MACHINE_GUN): ", WeaponType.values())
-        val carName = im.readString("Введите наименование автомобиля (если он есть, в ином случае оставьте пустым): ")
-        val car = if(carName.isNotEmpty())  Car (carName) else null
+
+        val impactSpeed = if (arguments == null) {
+            im.readFloat("Введите скорость удара: (максимум 68) ") { it in 0f..68f }
+        } else {
+            arguments.split(" ")[5].toFloat()
+        }
+
+        val soundtrackName = if (arguments == null) {
+            im.readString("Введите название саундтрека: ") { it.isNotEmpty() }
+        } else {
+            arguments.split(" ")[6]
+        }
+
+        val minutesOfWaiting = if (arguments == null) {
+            im.readFloat("Введите минуты ожидания: ") {it >= 0}
+        } else {
+            arguments.split(" ")[7].toFloat()
+        }
+
+        val weaponType = if (arguments == null) {
+            im.readEnum("Введите тип оружия (AXE, RIFLE, KNIFE, MACHINE_GUN): ", WeaponType.values())
+        } else {
+            WeaponType.fromString(arguments.split(" ")[8]) ?: throw IllegalArgumentException("Недопустимый тип оружия: ${arguments.split(" ")[8]}")
+        }
+
+        val carName = if (arguments == null) {
+            im.readString("Введите наименование автомобиля (если он есть, в ином случае оставьте пустым): ")
+        } else {
+            arguments.split(" ")[9]
+        }
+
+        val car = if (carName.isNotEmpty()) Car(carName) else null
 
         val newHuman = HumanBeing(
             name = name,

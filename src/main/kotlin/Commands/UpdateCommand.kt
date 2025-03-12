@@ -5,11 +5,12 @@ import org.example.ControlUnits.InputManager
 import org.example.Entity.*
 
 /**
- * Команда Info реализующая выполнение команды info по запросу пользователя в интерактивном режиме
+ * Команда Update реализующая выполнение команды update по запросу пользователя в интерактивном режиме
  *
- * Команда отвечающая за вывод информации о локальной коллекции. Использует метод реализованный в CollectionManager.
+ * Команда отвечающая за обновление данных какого-то объекта в локальной коллекции.
  *
- * @param collectionManager принимает в параметры CommandManager для исполнения команд скрипта.
+ * @param collectionManager принимает в параметры CollectionManager для добавления в коллекцию.
+ * @param inputManager принимает InputManager в параметры для удобного и корректного внесения данных пользователем в интерактивном режиме.
  * @see org.example.ControlUnits.CollectionManager - класс отвечающий за управление локальной коллекцией, ее загрузкой в файл и выгрузкой из него.
  * @see org.example.ControlUnits.InputManager - класс отвечающий за парсинг введенных пользователем данных для локальной коллекции объектов HumanBeing.
  * @see org.example.Entity.HumanBeing - основополагающий класс, объекты которого в локальной коллекции.
@@ -22,9 +23,10 @@ class UpdateCommand(private val collectionManager: CollectionManager, private va
             return
         }
 
-        // Парсинг id из аргументов команды
+        // Разделение аргументов на id и поля для обновления
+        val args = arguments.split(" ").toMutableList()
         val id = try {
-            arguments.toInt()
+            args.removeAt(0).toInt()
         } catch (e: NumberFormatException) {
             println("Ошибка: id должен быть целым числом.")
             return
@@ -37,21 +39,72 @@ class UpdateCommand(private val collectionManager: CollectionManager, private va
             return
         }
 
-        // Ввод новых данных
-        val name = inputManager.readString("Введите новое имя (не может быть пустым): ") { it.isNotEmpty() }
-        val x = inputManager.readInt("Введите новую координату x (максимум 749): ") { it in 0..749 }
-        val y = inputManager.readLong("Введите новую координату y (максимум 749): ")
+        // Ввод новых данных (интерактивный режим или из аргументов)
+        val name = if (args.isEmpty()) {
+            inputManager.readString("Введите новое имя (не может быть пустым): ") { it.isNotEmpty() }
+        } else {
+            args.removeAt(0)
+        }
+
+        val x = if (args.isEmpty()) {
+            inputManager.readInt("Введите новую координату x (максимум 749): ") { it in 0..749 }
+        } else {
+            args.removeAt(0).toInt()
+        }
+
+        val y = if (args.isEmpty()) {
+            inputManager.readLong("Введите новую координату y (максимум 749): ") { it <= 749 && it >= -749 }
+        } else {
+            args.removeAt(0).toLong()
+        }
+
         val coordinates = Coordinates(x, y)
-        val realHero = inputManager.readBoolean("Это реальный герой? (true/false): ")
-        val hasToothpick = inputManager.readBoolean("Есть ли зубочистка? (true/false): ")
-        val impactSpeed = inputManager.readFloat("Введите новую скорость удара (максимум 68): ") { it in 0f..68f }
-        val soundtrackName = inputManager.readString("Введите новое название саундтрека (не может быть пустым): ") { it.isNotEmpty() }
-        val minutesOfWaiting = inputManager.readFloat("Введите новые минуты ожидания: ")
-        val weaponType = inputManager.readEnum(
-            "Введите новый тип оружия (AXE, RIFLE, KNIFE, MACHINE_GUN) или оставьте пустым: ",
-            WeaponType.values()
-        )
-        val carName = inputManager.readString("Введите новое название машины (оставьте пустым, если нет): ")
+
+        val realHero = if (args.isEmpty()) {
+            inputManager.readBoolean("Это реальный герой? (true/false): ")
+        } else {
+            args.removeAt(0).toBoolean()
+        }
+
+        val hasToothpick = if (args.isEmpty()) {
+            inputManager.readBoolean("Есть ли зубочистка? (true/false): ")
+        } else {
+            args.removeAt(0).toBoolean()
+        }
+
+        val impactSpeed = if (args.isEmpty()) {
+            inputManager.readFloat("Введите новую скорость удара (максимум 68): ") { it in 0f..68f }
+        } else {
+            args.removeAt(0).toFloat()
+        }
+
+        val soundtrackName = if (args.isEmpty()) {
+            inputManager.readString("Введите новое название саундтрека (не может быть пустым): ") { it.isNotEmpty() }
+        } else {
+            args.removeAt(0)
+        }
+
+        val minutesOfWaiting = if (args.isEmpty()) {
+            inputManager.readFloat("Введите новые минуты ожидания: ")
+        } else {
+            args.removeAt(0).toFloat()
+        }
+
+        val weaponType = if (args.isEmpty()) {
+            inputManager.readEnum(
+                "Введите новый тип оружия (AXE, RIFLE, KNIFE, MACHINE_GUN) или оставьте пустым: ",
+                WeaponType.values()
+            )
+        } else {
+            WeaponType.fromString(args.removeAt(0)) ?: WeaponType.MACHINE_GUN // Default value
+        }
+
+        val carName = if (args.isEmpty()) {
+            inputManager.readString("Введите новое название машины (оставьте пустым, если нет): ")
+        } else {
+            args.removeAt(0)
+        }
+
         val car = if (carName.isNotEmpty()) Car(carName) else null
 
         // Обновление элемента

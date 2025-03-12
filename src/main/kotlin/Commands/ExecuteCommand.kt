@@ -15,9 +15,9 @@ import java.io.IOException
  * @see org.example.Entity.HumanBeing - основополагающий класс, объекты которого в локальной коллекции.
  */
 
-class ExecuteCommand (private val commandManager: CommandManager) : Command {
+class ExecuteCommand(private val commandManager: CommandManager) : Command {
     override fun execute(arguments: String?) {
-        if (arguments.isNullOrEmpty()){
+        if (arguments.isNullOrEmpty()) {
             println("Ошибка: не указано имя файла скрипта.")
             return
         }
@@ -25,19 +25,36 @@ class ExecuteCommand (private val commandManager: CommandManager) : Command {
         val fileName = arguments.trim()
         val file = File(fileName)
 
-        if(!file.exists()){
+        if (!file.exists()) {
             println("Ошибка: файл '$fileName' не найден")
             return
         }
 
-        try{
-            file.forEachLine {line ->
-                if (line.isNotBlank()){
+        try {
+            file.forEachLine { line ->
+                if (line.isNotBlank()) {
                     println("Выполнение команды: $line")
-                    commandManager.executeCommand(line)
+                    val parts = line.split(" ")
+                    val commandName = parts[0]
+                    val commandArgs = parts.drop(1).joinToString(" ")
+
+                    when (commandName) {
+                        "add" -> {
+                            // Обработка команды add с аргументами из скрипта
+                            commandManager.executeCommand("add $commandArgs")
+                        }
+                        "update" -> {
+                            // Обработка команды update с аргументами из скрипта
+                            commandManager.executeCommand("update $commandArgs")
+                        }
+                        else -> {
+                            // Обычная обработка команды
+                            commandManager.executeCommand(line)
+                        }
+                    }
                 }
             }
-        } catch (e: IOException){
+        } catch (e: IOException) {
             println("Ошибка при чтении файла скрипта: ${e.message}")
         }
     }
