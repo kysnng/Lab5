@@ -18,7 +18,8 @@ class ShowCommand (private val collectionManager: CollectionManager) : Command {
         if (collection.isEmpty()) {
             println("Коллекция пуста")
         }else{
-            collection.forEach { human -> println(human) }
+//            collection.forEach { human -> println(human) }
+            collectionManager.printToConsole()
         }
     }
 

@@ -115,7 +115,7 @@ class InputManager {
     /**
      * Функция, используемая для чтения элементов списка.
      * @param prompt принимает строку, которая запрашивает пользователя ввести какие-то данные.
-     * @param enumValues принимает коллекцию ArrayList<T>, где T - некий Enum.
+     * @param enumValues принимает коллекцию Array<T>, где T - некий Enum.
      * @return возвращает введенное пользователем число, если оно прошло проверку на корректность.
      */
     fun <T: Enum<T>> readEnum (prompt: String, enumValues: Array<T>) : T? {

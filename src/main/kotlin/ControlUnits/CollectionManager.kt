@@ -100,23 +100,33 @@ class CollectionManager private constructor(private val collection: ArrayList<Hu
      * @see java.io.BufferedWriter
      */
     fun saveToFile(fileName: String) {
-        try {
-            BufferedWriter(FileWriter(fileName)).use { writer ->
-                /** Запись заголовков .csv */
-                writer.write("id,name,coordinates_x,coordinates_y,creationDate,realHero,hasToothpick,impactSpeed,soundtrackName,minutesOfWaiting,weaponType,car_name\n")
+        OutputManager.saveToFile(getAll(), fileName)
+/*        try {
+//            BufferedWriter(FileWriter(fileName)).use { writer ->
+//                /** Запись заголовков .csv */
+//                writer.write("id,name,coordinates_x,coordinates_y,creationDate,realHero,hasToothpick,impactSpeed,soundtrackName,minutesOfWaiting,weaponType,car_name\n")
+//
+//                /** Запись данных в файл .csv */
+//                collection.forEach { human ->
+//                    writer.write(
+//                        "${human.id},${human.name},${human.coordinates.x},${human.coordinates.y}," +
+//                                "${human.creationDate.time},${human.realHero},${human.hasToothpick},${human.impactSpeed}," +
+//                                "${human.soundtrackName},${human.minutesOfWaiting},${human.weaponType},${human.car?.name}\n"
+//                    )
+//                }
+//            }
+//        } catch (e: IOException) {
+//            println("Ошибка при сохранении файла: ${e.message}")
+//        } */
+    }
 
-                /** Запись данных в файл .csv */
-                collection.forEach { human ->
-                    writer.write(
-                        "${human.id},${human.name},${human.coordinates.x},${human.coordinates.y}," +
-                                "${human.creationDate.time},${human.realHero},${human.hasToothpick},${human.impactSpeed}," +
-                                "${human.soundtrackName},${human.minutesOfWaiting},${human.weaponType},${human.car?.name}\n"
-                    )
-                }
-            }
-        } catch (e: IOException) {
-            println("Ошибка при сохранении файла: ${e.message}")
-        }
+    /**
+     * Выводит список HumanBeing в консоль
+     * @param humans Коллекция объектов
+     * @param format Формат вывода (DEFAULT, MINIMAL, DETAILED)
+     */
+    fun printToConsole(){
+        OutputManager.printToConsole(getAll(), ConsoleFormat.DETAILED)
     }
 
     /**

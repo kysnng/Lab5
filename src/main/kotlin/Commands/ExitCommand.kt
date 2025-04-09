@@ -2,13 +2,15 @@ package org.example.Commands
 
 /**
  * Команда Exit реализующая выполнение команды exit по запросу пользователя в интерактивном режиме.
- *
- * Завершает работу программы.
+ * Устанавливает флаг завершения программы для мягкого выхода.
  */
-
 class ExitCommand : Command {
+    private var shouldExit = false
+
+    fun shouldExit(): Boolean = shouldExit
+
     override fun execute(arguments: String?) {
-        println("Завершение программы")
-        System.exit(0)
+        println("Завершение программы...")
+        shouldExit = true
     }
 }
