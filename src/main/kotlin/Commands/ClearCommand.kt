@@ -1,6 +1,7 @@
 package org.example.Commands
 
 import org.example.ControlUnits.CollectionManager
+import org.example.ControlUnits.OutputManager
 
 /**
  * Команда Clear реализующая выполнение команды clear по запросу пользователя в интерактивном режиме.
@@ -14,7 +15,8 @@ import org.example.ControlUnits.CollectionManager
 class ClearCommand (private val collectionManager: CollectionManager): Command {
     override fun execute(arguments: String?) {
         collectionManager.clear()
-        println("Все элементы коллекции были удалены.")
+        OutputManager.output("Все элементы коллекции были удалены")
     }
+
 
 }

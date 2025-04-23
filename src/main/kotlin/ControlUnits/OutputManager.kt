@@ -1,12 +1,17 @@
 package org.example.ControlUnits
 
+import org.example.Entity.Car
+import org.example.Entity.Coordinates
 import org.example.Entity.HumanBeing
+import org.example.Entity.WeaponType
 import java.io.BufferedWriter
 import java.io.FileWriter
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.net.HttpURLConnection
 import java.net.URL
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Класс OutputManager для вывода данных объектов HumanBeing
@@ -16,6 +21,8 @@ import java.net.URL
  */
 class OutputManager {
     companion object {
+
+
         private val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 
         /**
@@ -23,11 +30,19 @@ class OutputManager {
          * @param humans Коллекция объектов
          * @param format Формат вывода (DEFAULT, MINIMAL, DETAILED)
          */
-        fun printToConsole(humans: ArrayList<HumanBeing>, format: ConsoleFormat = ConsoleFormat.DEFAULT) {
+        fun printToConsole(humans: ArrayList<HumanBeing>, format: ConsoleFormat = ConsoleFormat.DETAILED) {
             when {
                 humans.isEmpty() -> println("Нет данных для отображения")
                 else -> humans.forEach { println(formatHuman(it, format)) }
             }
+        }
+
+        private fun defaultOutput (message: String){
+            println(message)
+        }
+
+        private fun humanOutput(human: HumanBeing){
+            println(formatHuman(human, ConsoleFormat.DETAILED))
         }
 
         private fun formatHuman(human: HumanBeing, format: ConsoleFormat): String {
@@ -51,6 +66,71 @@ class OutputManager {
                 else -> human.toString() // DEFAULT format
             }
         }
+
+        private fun messageToFile(message: String = "Пустое сообщение", filename: String = "new_text.txt") {
+            try {
+                BufferedWriter(FileWriter(filename)).use { writer -> writer.write(message)}
+            } catch (e: IOException) {
+                println("Ошибка при записи в файл: ${e.message}")
+            }
+        }
+
+        private fun humanToFile(human: HumanBeing, filename: String = "new_text.txt"){
+            try {
+                BufferedWriter(FileWriter(filename)).use { writer -> writer.write("${human.id},${human.name},${human.coordinates.x},${human.coordinates.y}," +
+                        "${human.creationDate.time},${human.realHero},${human.hasToothpick},${human.impactSpeed}," +
+                        "${human.soundtrackName},${human.minutesOfWaiting},${human.weaponType},${human.car?.name}\n")}
+            } catch (e: IOException) {
+                println("Ошибка при записи в файл: ${e.message}")
+            }
+        }
+
+        private fun messageToServer(message: String = "Пустое сообщение", serverUrl: String = "nullUrl"){
+            try {
+                val url = URL(serverUrl)
+                val connection = url.openConnection() as HttpURLConnection
+                connection.requestMethod = "POST"
+                connection.doOutput = true
+                connection.setRequestProperty("Content-Type", "text/plain")
+
+                connection.outputStream.use { os ->
+                    os.write(message.toByteArray(Charsets.UTF_8))
+                }
+
+                val responseCode = connection.responseCode
+                if (responseCode !in 200..299) {
+                    throw Exception("Сервер вернул ошибку: $responseCode")
+                }
+
+                println("Данные успешно отправлены на сервер: $serverUrl")
+            } catch (e: Exception) {
+                println("Ошибка при отправке на сервер: ${e.message}")
+            }
+        }
+
+        private fun humanToServer(human: HumanBeing, serverUrl: String = "nullUrl"){
+            try {
+                val url = URL(serverUrl)
+                val connection = url.openConnection() as HttpURLConnection
+                connection.requestMethod = "POST"
+                connection.doOutput = true
+                connection.setRequestProperty("Content-Type", "text/plain")
+
+                connection.outputStream.use { os ->
+                    os.write(human.toString().toByteArray(Charsets.UTF_8))
+                }
+
+                val responseCode = connection.responseCode
+                if (responseCode !in 200..299) {
+                    throw Exception("Сервер вернул ошибку: $responseCode")
+                }
+
+                println("Данные успешно отправлены на сервер: $serverUrl")
+            } catch (e: Exception) {
+                println("Ошибка при отправке на сервер: ${e.message}")
+            }
+        }
+
 
         /**
          * Сохраняет список HumanBeing в файл
@@ -145,6 +225,41 @@ class OutputManager {
             }
             return listOf((header) + rows).joinToString("\n")
         }
+
+        fun output(message: String = "null message",
+                           sourceFormat: OutputFormat = OutputFormat.CONSOLE,
+                           serverUrl: String = "",
+                           filename: String = "new_text.txt") {
+            when (sourceFormat){
+                    OutputFormat.CONSOLE -> defaultOutput(message)
+                    OutputFormat.SERVER -> messageToServer(message, serverUrl)
+                    OutputFormat.FILE -> messageToFile(message, filename)
+            }
+        }
+
+        fun output(humans: ArrayList<HumanBeing>,
+                   sourceFormat: OutputFormat = OutputFormat.CONSOLE,
+                   serverUrl: String = "",
+                   filename: String = "new_text.txt") {
+            when (sourceFormat){
+                    OutputFormat.CONSOLE -> printToConsole(humans)
+                    OutputFormat.SERVER -> sendToServer(humans, serverUrl)
+                    OutputFormat.FILE -> saveToFile(humans, filename)
+            }
+        }
+
+        fun output (human: HumanBeing,
+                    sourceFormat: OutputFormat = OutputFormat.CONSOLE,
+                    serverUrl: String = "",
+                    filename: String = "new_text.txt") {
+            when(sourceFormat){
+                OutputFormat.CONSOLE -> humanOutput(human)
+                OutputFormat.FILE -> humanToFile(human)
+                OutputFormat.SERVER -> humanToServer(human)
+            }
+        }
+
+
     }
 }
 
@@ -158,4 +273,9 @@ class OutputManager {
     }
     enum class ServerFormat {
         TEXT, CSV
+    }
+    enum class OutputFormat{
+        CONSOLE, // Выводит содержимое в интерактивном режиме
+        FILE, // Производит вывод в файл
+        SERVER // Призводит вывод на севере
     }

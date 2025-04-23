@@ -1,6 +1,7 @@
 package org.example.Commands
 
 import org.example.ControlUnits.CollectionManager
+import org.example.ControlUnits.OutputManager
 
 /**
  * Команда Shuffle реализующая выполнение команды shuffle по запросу пользователя в интерактивном режиме.
@@ -16,6 +17,6 @@ import org.example.ControlUnits.CollectionManager
 class ShuffleCommand(private val collectionManager: CollectionManager) : Command {
     override fun execute(arguments: String?) {
         collectionManager.shuffle()
-        println("Перемешивание прошло успешно!")
+        OutputManager.output("Перемешивание прошло успешно!")
     }
 }

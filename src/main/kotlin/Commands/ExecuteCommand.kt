@@ -1,6 +1,8 @@
 package org.example.Commands
 
 import org.example.ControlUnits.CommandManager
+import org.example.ControlUnits.OutputFormat
+import org.example.ControlUnits.OutputManager
 import java.io.File
 import java.io.IOException
 
@@ -18,7 +20,7 @@ import java.io.IOException
 class ExecuteCommand(private val commandManager: CommandManager) : Command {
     override fun execute(arguments: String?) {
         if (arguments.isNullOrEmpty()) {
-            println("Ошибка: не указано имя файла скрипта.")
+            OutputManager.output("Ошибка: не указано имя файла скрипта", OutputFormat.CONSOLE)
             return
         }
 
@@ -26,14 +28,14 @@ class ExecuteCommand(private val commandManager: CommandManager) : Command {
         val file = File(fileName)
 
         if (!file.exists()) {
-            println("Ошибка: файл '$fileName' не найден")
+            OutputManager.output("Ошибка: файл '$fileName' не найден", OutputFormat.CONSOLE)
             return
         }
 
         try {
             file.forEachLine { line ->
                 if (line.isNotBlank()) {
-                    println("Выполнение команды: $line")
+                    OutputManager.output("Выполнение команды $line", OutputFormat.CONSOLE)
                     val parts = line.split(" ")
                     val commandName = parts[0]
                     val commandArgs = parts.drop(1).joinToString(" ")
@@ -55,7 +57,7 @@ class ExecuteCommand(private val commandManager: CommandManager) : Command {
                 }
             }
         } catch (e: IOException) {
-            println("Ошибка при чтении файла скрипта: ${e.message}")
+            OutputManager.output("Ошибка при чтении файла скрипта: ${e.message}", OutputFormat.CONSOLE)
         }
     }
 }

@@ -1,6 +1,8 @@
 package org.example.Commands
 
 import org.example.ControlUnits.CollectionManager
+import org.example.ControlUnits.OutputFormat
+import org.example.ControlUnits.OutputManager
 
 /**
  * Команда DateMax реализующая выполнение команды max_by_creation_date по запросу пользователя в интерактивном режиме
@@ -16,13 +18,14 @@ class DateMaxCommand (private val collectionManager: CollectionManager) : Comman
     override fun execute(arguments: String?) {
         val collection = collectionManager.getAll()
         if (collection.isEmpty()) {
-            println("Коллекция пуста.")
+            OutputManager.output("Коллекция пуста", OutputFormat.CONSOLE)
             return
         }
         val max = collection.maxByOrNull{it.creationDate}
         if (max !== null) {
-            println("Последний созданный объект: ")
-            println(max)
+            OutputManager.output("Последний созданный объект", OutputFormat.CONSOLE)
+//            println(max)
+            OutputManager.output(max)
         }else{
             println("Не удалось найти последний созданный элемент")
         }

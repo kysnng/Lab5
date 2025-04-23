@@ -2,6 +2,8 @@ package org.example.Commands
 
 import org.example.ControlUnits.CollectionManager
 import org.example.ControlUnits.InputManager
+import org.example.ControlUnits.OutputFormat
+import org.example.ControlUnits.OutputManager
 import org.example.Entity.Car
 import org.example.Entity.Coordinates
 import org.example.Entity.HumanBeing
@@ -21,12 +23,12 @@ import org.example.Entity.WeaponType
 
 class AddCommand(private val collectionManager: CollectionManager, private val im: InputManager) : Command {
     override fun execute(arguments: String?) {
-        println("Добавление нового элемента в коллекцию.")
-
+//        println("Добавление нового элемента в коллекцию.")
+        OutputManager.output("Добавление нового элемента в коллекцию")
         if (arguments != null) {
             if (arguments.split(" ").size < 10) {
-                println("Похоже, вы пытаетесь ввести данные человека в той же строке, что и команда\n" +
-                        "Попробуйте вводить данные после ввода команды add")
+                OutputManager.output("Похоже, вы пытаетесь ввести данные человека в той же строке, что и команда\n" +
+                        "Попробуйте вводить данные после ввода команды add", OutputFormat.CONSOLE)
                 return
             }
         }
@@ -107,6 +109,6 @@ class AddCommand(private val collectionManager: CollectionManager, private val i
         )
 
         collectionManager.add(newHuman)
-        println("Элемент успешно добавлен в коллекцию")
+        OutputManager.output("Элемент успешно добавлен в коллекцию", OutputFormat.CONSOLE)
     }
 }

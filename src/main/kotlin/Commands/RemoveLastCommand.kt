@@ -1,6 +1,7 @@
 package org.example.Commands
 
 import org.example.ControlUnits.CollectionManager
+import org.example.ControlUnits.OutputManager
 
 /**
  * Команда RemoveLast реализующая выполнение команды remove_last по запросу пользователя в интерактивном режиме
@@ -19,7 +20,7 @@ class RemoveLastCommand(private val collectionManager: CollectionManager) : Comm
 
         // Проверяем, что коллекция не пуста
         if (collection.isEmpty()) {
-            println("Коллекция пуста. Невозможно удалить последний элемент.")
+            OutputManager.output("Коллекция пуста. Невозможно удалить последний элемент.")
             return
         }
 
@@ -28,6 +29,6 @@ class RemoveLastCommand(private val collectionManager: CollectionManager) : Comm
         val removedElement = collection.removeAt(lastIndex)
 
         // Выводим сообщение об успешном удалении
-        println("Последний элемент (id = ${removedElement.id}) успешно удален.")
+        OutputManager.output("Последний элемент (id = ${removedElement.id}) успешно удален.")
     }
 }

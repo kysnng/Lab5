@@ -1,6 +1,8 @@
 package org.example.Commands
 
 import org.example.ControlUnits.CollectionManager
+import org.example.ControlUnits.OutputFormat
+import org.example.ControlUnits.OutputManager
 
 /**
  * Команда Save реализующая выполнение команды save по запросу пользователя в интерактивном режиме
@@ -17,7 +19,7 @@ import org.example.ControlUnits.CollectionManager
 class SaveCommand (private val collectionManager: CollectionManager, private val fileName: String) : Command {
     override fun execute(arguments: String?) {
         collectionManager.saveToFile(fileName)
-        println("Коллекция успешно сохранена в файл: '$fileName'")
+        OutputManager.output("Коллекция успешно сохранена в файл: '$fileName'")
     }
 
 }

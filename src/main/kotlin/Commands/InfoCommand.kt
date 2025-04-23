@@ -1,6 +1,8 @@
 package org.example.Commands
 
 import org.example.ControlUnits.CollectionManager
+import org.example.ControlUnits.OutputFormat
+import org.example.ControlUnits.OutputManager
 
 /**
  * Команда Info реализующая выполнение команды info по запросу пользователя в интерактивном режиме
@@ -14,6 +16,7 @@ import org.example.ControlUnits.CollectionManager
 
 class InfoCommand (private val collection: CollectionManager) : Command {
     override fun execute(arguments: String?) {
-        println(collection.getInfo())
+        OutputManager.output(collection.getInfo())
     }
+
 }

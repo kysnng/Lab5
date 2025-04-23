@@ -1,9 +1,7 @@
 package org.example
 
 import org.example.Commands.*
-import org.example.ControlUnits.CollectionManager
-import org.example.ControlUnits.CommandManager
-import org.example.ControlUnits.InputManager
+import org.example.ControlUnits.*
 
 
 /**
@@ -95,7 +93,8 @@ fun main(args: Array<String>) {
      * Программа ожидает ввода команды и выполняет соответствующее действие.
      * Цикл завершается только при выполнении команды "exit".
      */
-    println("Программа запущенна, пожалуйста введите команду (help - для списка доступных команд)")
+//    println("Программа запущенна, пожалуйста введите команду (help - для списка доступных команд)")
+    OutputManager.output("Программа запущенна, пожалуйста введите команду (help - для списка доступных команд)", OutputFormat.CONSOLE)
     while (!exitCommand.shouldExit()) {
         print("$ ")
         val userSentence = readln().trim()

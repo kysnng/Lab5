@@ -2,6 +2,7 @@ package org.example.Commands
 
 import org.example.ControlUnits.CollectionManager
 import org.example.ControlUnits.InputManager
+import org.example.ControlUnits.OutputManager
 import org.example.Entity.*
 
 /**
@@ -19,7 +20,7 @@ import org.example.Entity.*
 class UpdateCommand(private val collectionManager: CollectionManager, private val inputManager: InputManager) : Command {
     override fun execute(arguments: String?) {
         if (arguments.isNullOrEmpty()) {
-            println("Ошибка: не указан id элемента для обновления.")
+            OutputManager.output("Ошибка: не указан id элемента для обновления.")
             return
         }
 
@@ -28,14 +29,14 @@ class UpdateCommand(private val collectionManager: CollectionManager, private va
         val id = try {
             args.removeAt(0).toInt()
         } catch (e: NumberFormatException) {
-            println("Ошибка: id должен быть целым числом.")
+            OutputManager.output("Ошибка: id должен быть целым числом.")
             return
         }
 
         // Поиск элемента по id
         val existingHuman = collectionManager.getById(id)
         if (existingHuman == null) {
-            println("Элемент с id $id не найден.")
+            OutputManager.output("Элемент с id $id не найден.")
             return
         }
 
@@ -120,6 +121,6 @@ class UpdateCommand(private val collectionManager: CollectionManager, private va
             car = car
         )
 
-        println("Элемент с id $id успешно обновлен.")
+        OutputManager.output("Элемент с id $id успешно обновлен.")
     }
 }

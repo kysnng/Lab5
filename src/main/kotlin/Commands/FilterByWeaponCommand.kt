@@ -1,6 +1,8 @@
 package org.example.Commands
 
 import org.example.ControlUnits.CollectionManager
+import org.example.ControlUnits.OutputFormat
+import org.example.ControlUnits.OutputManager
 import org.example.Entity.WeaponType
 
 /**
@@ -18,7 +20,7 @@ class FilterByWeaponCommand (private val collectionManager: CollectionManager): 
         if (arguments.isNullOrEmpty()) {
             val checkedFilter = collectionManager.getAll().filter { it.weaponType?.name == arguments?.trim()?.uppercase()}
             if (checkedFilter.isEmpty()) {
-                println("Не удалось найти людей без оружия.")
+                OutputManager.output("Не удалось найти людей без оружия.")
             }else{
                 checkedFilter.forEach {println(it)}
             }
@@ -28,15 +30,17 @@ class FilterByWeaponCommand (private val collectionManager: CollectionManager): 
         try {
             WeaponType.valueOf(arguments.trim().uppercase())
         } catch (e: IllegalArgumentException) {
-            println("Такого оружия не существует. Попробуйте ввести оружие из этого списка: ${WeaponType.entries.joinToString(", ") {it.name}}")
+            OutputManager.output("Такого оружия не существует." +
+                    " Попробуйте ввести оружие из этого списка: ${WeaponType.entries.joinToString(", ") {it.name}}", OutputFormat.CONSOLE)
             return
         }
 
         val checkedFilter = collectionManager.getAll().filter { it.weaponType?.name == arguments.trim().uppercase()}
         if (checkedFilter.isEmpty()) {
-            println("Не удалось найти людей с таким оружием.")
+            OutputManager.output("Не удалось найти людей с таким оружием.")
         }else{
-            checkedFilter.forEach {println(it)}
+//            checkedFilter.forEach {println(it)}
+            checkedFilter.forEach {OutputManager.output(it)}
         }
     }
 }

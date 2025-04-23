@@ -1,6 +1,8 @@
 package org.example.Commands
 
 import org.example.ControlUnits.CollectionManager
+import org.example.ControlUnits.OutputFormat
+import org.example.ControlUnits.OutputManager
 
 /**
  * Команда Show реализующая выполнение команды show по запросу пользователя в интерактивном режиме
@@ -18,8 +20,7 @@ class ShowCommand (private val collectionManager: CollectionManager) : Command {
         if (collection.isEmpty()) {
             println("Коллекция пуста")
         }else{
-//            collection.forEach { human -> println(human) }
-            collectionManager.printToConsole()
+            OutputManager.output(collectionManager.getAll())
         }
     }
 

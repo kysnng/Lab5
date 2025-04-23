@@ -1,6 +1,8 @@
 package org.example.Commands
 
 import org.example.ControlUnits.CommandManager
+import org.example.ControlUnits.OutputFormat
+import org.example.ControlUnits.OutputManager
 
 /**
  * Команда Help реализующая выполнение команды help по запросу пользователя в интерактивном режиме
@@ -14,7 +16,7 @@ import org.example.ControlUnits.CommandManager
 class HelpCommand (private val commandManager: CommandManager) : Command {
 
     override fun execute(arguments: String?){
-        println("Доступные команды:")
+        OutputManager.output("Доступные команды", OutputFormat.SERVER)
         // Используется лямбда-выражение заместо println(it) для красоты вывода
         commandManager.getRegisteredCommands().forEach {(name, description) -> println("$name - $description")}
     }
