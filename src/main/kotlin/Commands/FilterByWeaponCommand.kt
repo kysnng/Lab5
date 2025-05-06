@@ -40,7 +40,8 @@ class FilterByWeaponCommand (private val collectionManager: CollectionManager): 
             OutputManager.output("Не удалось найти людей с таким оружием.")
         }else{
 //            checkedFilter.forEach {println(it)}
-            checkedFilter.forEach {OutputManager.output(it)}
+            checkedFilter.map{OutputManager.output(it)}
+            // Заменил forEach на map
         }
     }
 }

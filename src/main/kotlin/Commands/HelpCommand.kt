@@ -19,5 +19,6 @@ class HelpCommand (private val commandManager: CommandManager) : Command {
         OutputManager.output("Доступные команды", OutputFormat.SERVER)
         // Используется лямбда-выражение заместо println(it) для красоты вывода
         commandManager.getRegisteredCommands().forEach {(name, description) -> println("$name - $description")}
+        // Тут forEach уместен
     }
 }

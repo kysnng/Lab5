@@ -104,11 +104,12 @@ class InputManager {
         while(true){
             print(prompt)
             val input = readLine()?.trim()?.lowercase() ?: ""
-            when (input){
-                "true" -> return true
-                "false" -> return false
-                else -> println("Ошибка: Введите 'true' или 'false'.")
-            }
+            if (input == "true") return true else if (input=="false") return false else OutputManager.output("Ошибка: Введите 'true' или 'false'")
+//            when (input){
+//                "true" -> return true
+//                "false" -> return false
+//                else -> println("Ошибка: Введите 'true' или 'false'.")
+//            }
         }
     }
 

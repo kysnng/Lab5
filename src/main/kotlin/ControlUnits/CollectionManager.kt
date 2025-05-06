@@ -146,15 +146,6 @@ class CollectionManager private constructor(private val collection: ArrayList<Hu
                 while (reader.readLine().also { line = it } != null) {
                     val parts = line!!.split(",")
                     if (parts.size == 12) {
-                        val id = parts[0].toInt()
-                        val name = parts[1]
-                        val coordinates = Coordinates(parts[2].toInt(), parts[3].toLong())
-                        val creationDate = Date(parts[4].toLong())
-                        val realHero = parts[5].toBoolean()
-                        val hasToothpick = parts[6].toBoolean()
-                        val impactSpeed = parts[7].toFloat()
-                        val soundtrackName = parts[8]
-                        val minutesOfWaiting = parts[9].toFloat()
                         val weaponType = if (parts[10].isEmpty() || parts[10].equals("null", ignoreCase = true)) {
                             null
                         } else {
@@ -171,23 +162,21 @@ class CollectionManager private constructor(private val collection: ArrayList<Hu
                             Car(parts[11])
                         }
 
-                        /** Создаем объект с использованием классического конструктора (без автоматической генерации).*/
-                        val human = HumanBeing.createWithId(
-                            id,
-                            name,
-                            coordinates,
-                            creationDate,
-                            realHero,
-                            hasToothpick,
-                            impactSpeed,
-                            soundtrackName,
-                            minutesOfWaiting,
+                        /** Создание объекта с использованием классического конструктора (без автоматической генерации) и
+                        * последующее добавление объекта в локальную коллекцию */
+                        collection.add(HumanBeing.createWithId(
+                            parts[0].toInt(),
+                            parts[1],
+                            Coordinates(parts[2].toInt(), parts[3].toLong()),
+                            Date(parts[4].toLong()),
+                            parts[5].toBoolean(),
+                            parts[6].toBoolean(),
+                            parts[7].toFloat(),
+                            parts[8],
+                            parts[9].toFloat(),
                             weaponType,
                             car
-                        )
-
-                        /** Добавление объекта в локальную коллекцию */
-                        collection.add(human)
+                        ))
                     }
                 }
             }

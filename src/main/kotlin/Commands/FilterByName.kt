@@ -27,7 +27,7 @@ class FilterByName (private val collectionManager: CollectionManager) : Command 
             OutputManager.output("Не удалось найти человека с таким именем")
         }else{
 //            checkedFilter.forEach {println(it)}
-            checkedFilter.forEach {OutputManager.output(it)}
+            checkedFilter.map{OutputManager.output(it)}
         }
     }
 

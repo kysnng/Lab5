@@ -26,7 +26,7 @@ class DateMaxCommand (private val collectionManager: CollectionManager) : Comman
             OutputManager.output("Последний созданный объект", OutputFormat.CONSOLE)
 //            println(max)
             OutputManager.output(max)
-        }else{
+        } else{
             println("Не удалось найти последний созданный элемент")
         }
     }

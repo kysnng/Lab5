@@ -17,7 +17,7 @@ import java.util.*
  * @param car - транспорт персонажа. Может отсутствовать (быть пустым).
  * @see org.example.ControlUnits.CollectionManager*/
 
-class HumanBeing private constructor(
+data class HumanBeing private constructor(
     public val id: Int, //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     public var name: String, //Поле не может быть null, Строка не может быть пустой
     public var coordinates: Coordinates, //Поле не может быть null
@@ -70,9 +70,7 @@ class HumanBeing private constructor(
         private var lastId = 0
         /** Статическая функция генерации уникального id
          * @return возвращает инкрементированную переменную lastId.*/
-        private fun generateId(): Int {
-            return ++lastId
-        }
+        private fun generateId(): Int = ++lastId
 
         /** Функция для создания объекта без генерации id и даты.
          * Необходим для корректного создания объектов при их загрузке из файла .csv.
